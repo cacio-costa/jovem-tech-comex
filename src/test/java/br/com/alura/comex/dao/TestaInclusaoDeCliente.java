@@ -1,6 +1,8 @@
 package br.com.alura.comex.dao;
 
 import br.com.alura.comex.dominio.Cliente;
+import br.com.alura.comex.service.ClienteService;
+import br.com.alura.comex.springfake.SpringFake;
 
 public class TestaInclusaoDeCliente {
 
@@ -14,8 +16,8 @@ public class TestaInclusaoDeCliente {
         cliente.setCidade("Rio de Janeiro");
         cliente.setEstado("RJ");
 
-        ClienteDao clienteDao = new ClienteDao();
-        clienteDao.insere(cliente); // finalizar a lógica de inclusão no banco...
+        ClienteService clienteService = SpringFake.getClienteService();
+        clienteService.insere(cliente);
 
         System.out.println("Cliente cadastrado com sucesso");
     }

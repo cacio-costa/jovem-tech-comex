@@ -8,13 +8,14 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class PedidoDao {
+public class PedidoDao implements Transacionavel {
 
     private Connection conexao;
 
-    public void setConexao(Connection conexao) {
+    public PedidoDao(Connection conexao) {
         this.conexao = conexao;
     }
+
 
     public boolean temPedidoDoCliente(Cliente cliente) {
         String sql = "select count(*) quantidade from pedido where cliente_id = ?";
@@ -31,6 +32,22 @@ public class PedidoDao {
             }
         } catch (SQLException e) {
             throw new RuntimeException("Falha ao consultar quantidade de pedidos de um cliente.", e);
+        }
+    }
+
+    public void abreTransacao() {
+        try {
+            conexao.setAutoCommit(false);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void efetivaTransacao() {
+        try {
+            conexao.commit();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
         }
     }
 }

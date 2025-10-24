@@ -1,15 +1,18 @@
 package br.com.alura.comex.dao;
 
 import br.com.alura.comex.dominio.Categoria;
+import br.com.alura.comex.service.CategoriaService;
+import br.com.alura.comex.springfake.SpringFake;
 
-import java.sql.*;
+import java.sql.SQLException;
 import java.util.List;
 
 public class TestaListagemDeCategoria {
 
     public static void main(String[] args) throws SQLException {
-        CategoriaDao dao = new CategoriaDao();
-        List<Categoria> categorias = dao.listaTodas();
+        CategoriaService service = SpringFake.getCategoriaService();
+
+        List<Categoria> categorias = service.listaTodas();
 
         for (Categoria categoria : categorias) {
             System.out.println("ID: " + categoria.getId());

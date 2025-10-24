@@ -1,34 +1,37 @@
 package br.com.alura.comex.service;
 
-import br.com.alura.comex.banco.ConnectionFactory;
 import br.com.alura.comex.dao.ClienteDao;
 import br.com.alura.comex.dao.PedidoDao;
 import br.com.alura.comex.dominio.Cliente;
 
-import java.sql.Connection;
-import java.sql.SQLException;
-
 public class ClienteService {
 
+    private ClienteDao clienteDao;
+    private PedidoDao pedidoDao;
+
+    public ClienteService(ClienteDao clienteDao, PedidoDao pedidoDao) {
+        this.clienteDao = clienteDao;
+        this.pedidoDao = pedidoDao;
+    }
+
     public boolean excluiCliente(Cliente clienteParaExcluir) {
-        try (Connection conexao = new ConnectionFactory().criaConexao()) {
+        clienteDao.abreTransacao();
 
-            PedidoDao pedidoDao = new PedidoDao();
-            pedidoDao.setConexao(conexao);
-
-            if (pedidoDao.temPedidoDoCliente(clienteParaExcluir)) {
-                return false;
-            } else {
-                ClienteDao clienteDao = new ClienteDao();
-                clienteDao.setConexao(conexao);
-
-                clienteDao.exclui(clienteParaExcluir);
-
-                return true;
-            }
-
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
+        if (pedidoDao.temPedidoDoCliente(clienteParaExcluir)) {
+            return false;
         }
+
+        clienteDao.exclui(clienteParaExcluir);
+        clienteDao.efetivaTransacao();
+
+        return true;
+    }
+
+    public void insere(Cliente cliente) {
+        clienteDao.insere(cliente);
+    }
+
+    public Cliente buscaPorId(long id) {
+        return clienteDao.buscaPorId(id);
     }
 }
