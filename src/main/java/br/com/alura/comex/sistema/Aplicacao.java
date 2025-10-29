@@ -1,13 +1,14 @@
 package br.com.alura.comex.sistema;
 
 import br.com.alura.comex.sistema.comando.*;
+import br.com.alura.comex.springfake.SpringFake;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
 
 public class Aplicacao {
-    private static Scanner sc = new Scanner(System.in);
+    static Scanner sc = SpringFake.getScanner();
 
     private static Map<Integer, Funcionalidade> funcionalidades = Map.of(
         2, new ListagemDeCategorias(),
@@ -15,7 +16,6 @@ public class Aplicacao {
     );
 
     public static void main(String[] args) {
-        sc.useDelimiter("\\n");
 
         int escolha = pedeOpcaoDoUsuario();
         while (escolha != 5) {
@@ -35,6 +35,7 @@ public class Aplicacao {
         System.out.println("5 - Sair");
 
         System.out.println("\nEscolha uma funcionalidade (1-4): ");
+
 
         int escolha = sc.nextInt();
         return escolha;

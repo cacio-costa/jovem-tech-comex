@@ -5,7 +5,6 @@ import br.com.alura.comex.dao.CategoriaDao;
 import br.com.alura.comex.dominio.Categoria;
 
 import java.util.List;
-import java.util.Objects;
 
 public class CategoriaService {
 
@@ -16,6 +15,7 @@ public class CategoriaService {
     }
 
     public List<Categoria> listaTodas() {
+
         return categoriaDao.listaTodas();
     }
 

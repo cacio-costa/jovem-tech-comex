@@ -1,8 +1,17 @@
 package br.com.alura.comex.dominio;
 
 
+import jakarta.persistence.*;
+
+/**
+ * JPA SEGUE ESTE LEMA: Convention over Configuration
+ */
+@Entity
+@Table(name = "categoria")
 public class Categoria {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String nome;
     private String status;
